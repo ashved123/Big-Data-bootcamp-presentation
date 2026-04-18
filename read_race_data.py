@@ -10,6 +10,7 @@ qualpos = qualifying[["StandingsId", "position"]].rename(columns={"position": "q
 conpos = constructor_standings[["StandingsId", "position"]].rename(columns={"position": "constructor_position"})
 
 combined = pd.merge(qualpos, conpos, on="StandingsId")
-combined["position_delta"] = abs(combined["qualifying_position"].astype(int) - combined["constructor_position"].astype(int)
-)
+combined["position_delta"] = abs(combined["qualifying_position"].astype(int) - combined["constructor_position"].astype(int))
 print(combined)
+
+combined.to_csv(root / "race data" / "combined_output.csv", index=False)
