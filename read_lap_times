@@ -1,0 +1,29 @@
+import pandas as pd
+
+lap_times = pd.read_csv('race data/lap_times.csv')
+
+best_race_laps = lap_times.groupby('driverId')['milliseconds'].min().reset_index()
+best_race_laps.rename(columns={'milliseconds': 'best_race_lap_ms'}, inplace=True)
+
+qualifying = pd.read_csv('race data/qualifying.csv')
+
+def time_to_ms(t):
+    if pd.isna(t) or t == '\\N':
+        return None
+    m, s = t.split(':')
+    return int(m) * 60000 + float(s) * 1000
+
+for q in ['q1', 'q2', 'q3']:
+    qualifying[q + '_ms'] = qualifying[q].apply(time_to_ms)
+
+qualifying['best_qualifying_ms'] = qualifying[['q1_ms', 'q2_ms', 'q3_ms']].min(axis=1)
+best_qualifying = qualifying[['driverId', 'best_qualifying_ms']]
+
+# Merge for comparison
+comparison = pd.merge(best_race_laps, best_qualifying, on='driverId', how='inner')
+comparison['diff_ms'] = comparison['best_race_lap_ms'] - comparison['best_qualifying_ms']
+
+# Save the comparison as a CSV file in the race data folder
+comparison[['driverId', 'best_race_lap_ms', 'best_qualifying_ms', 'diff_ms']].to_csv('race data/lap_time_comparison.csv', index=False)
+
+print("Comparison saved to race data/lap_time_comparison.csv")
