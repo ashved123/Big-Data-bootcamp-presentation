@@ -23,6 +23,7 @@ best_qualifying = qualifying[['driverId', 'best_qualifying_ms']]
 comparison = pd.merge(best_race_laps, best_qualifying, on='driverId', how='inner')
 comparison['diff_ms'] = comparison['best_race_lap_ms'] - comparison['best_qualifying_ms']
 
+
 # Save the comparison as a CSV file in the race data folder
 comparison[['driverId', 'best_race_lap_ms', 'best_qualifying_ms', 'diff_ms']].to_csv('race data/lap_time_comparison.csv', index=False)
 

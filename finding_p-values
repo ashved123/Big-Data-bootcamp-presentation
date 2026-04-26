@@ -1,0 +1,33 @@
+import pandas as pd
+
+
+lap_times = pd.read_csv('race data/lap_time_comparison.csv')
+
+null_hypothesis = 0
+difference = 0
+
+for I in lap_times['diff_ms']:
+    if I < 20000 and I > -20000:
+        null_hypothesis += 1
+    else:
+        difference += 1
+
+lap_times_p_value = difference / (null_hypothesis + difference)
+
+print(null_hypothesis, difference, lap_times_p_value)
+
+
+posdelta = pd.read_csv('race data/combined_output.csv')
+
+null_hypothesis = 0
+difference = 0
+
+for I in posdelta['position_delta']:
+    if I < 5:
+        null_hypothesis += 1
+    else:
+        difference += 1
+
+posdelta_p_value = difference / (null_hypothesis + difference)
+
+print(null_hypothesis, difference, posdelta_p_value)
