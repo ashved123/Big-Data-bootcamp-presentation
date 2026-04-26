@@ -31,3 +31,8 @@ for I in posdelta['position_delta']:
 posdelta_p_value = difference / (null_hypothesis + difference)
 
 print(null_hypothesis, difference, posdelta_p_value)
+
+
+
+#lap times 5346 5412 0.5030674846625767
+#pos delta 2105 3210 0.6039510818438382
